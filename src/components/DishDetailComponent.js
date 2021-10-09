@@ -4,6 +4,8 @@ import {Control,LocalForm,Errors} from 'react-redux-form';
 import {Link} from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+
 
 const maxLength=(len)=>(val)=>!(val)|| (val.length<=len);
 const minLength=(len)=>(val)=>(val) && (val.length>=len);
@@ -96,13 +98,18 @@ class CommentForm extends Component{
 
 function RenderDish({dish}){
         return(
-            <Card>
-                <CardImg top src={baseUrl + dish.image} alt={dish.name} />
-                <CardBody>
-                <CardTitle>{dish.name}</CardTitle>
-                <CardText>{dish.description}</CardText>
-                </CardBody>
-            </Card>
+            <FadeTransform in
+            transformProps={{
+                exitTransform: 'scale(0.5) translateY(-50%)'
+            }}>
+                <Card>
+                    <CardImg top src={baseUrl + dish.image} alt={dish.name} />
+                    <CardBody>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
         );
 }   
 
@@ -111,15 +118,17 @@ function RenderComment({comments,postComment,dishId}){
         {
             const comentsList=comments.map((comment)=>{
                 return(
+                    <Fade in>
                     <li key={comment.id}>
                         {comment.comment} <br/>
                         --{comment.author} , {new Intl.DateTimeFormat('en-US',{year:'numeric',month:'short',day:'2-digit'}).format(new Date(Date.parse(comment.date)))}
                     </li>
+                    </Fade>
                 );
              });
         return(
             <div>
-            {comentsList}  
+            {comentsList} 
             <CommentForm dishId={dishId} postComment={postComment}/>   
             </div>
             );
@@ -168,8 +177,13 @@ const DishDetail=(props)=>{
                 <RenderDish dish={props.dish}/>
             </div>
             <div className="col-12 col-md-5 m-1"><h4>Comments</h4> <ul className="list-unstyled">
-                <RenderComment comments={props.comments} postComment={props.postComment}
-                dishId={props.dish.id}/></ul></div>
+
+                <Stagger in>
+                    <RenderComment comments={props.comments} postComment={props.postComment}
+                    dishId={props.dish.id}/>
+                </Stagger>
+                
+                </ul></div>
         </div>
     </div>
     );
