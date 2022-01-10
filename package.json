@@ -1,4 +1,5 @@
 {
+  "homepage":"https://cdlavacudeg.github.io/React_Course",
   "name": "confusion",
   "version": "0.1.0",
   "private": true,
@@ -22,6 +23,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "predeploy":"npm run build",
+    "deploy":"gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -49,6 +52,7 @@
     "bootstrap": "^5.1.1",
     "bootstrap-social": "^5.1.1",
     "font-awesome": "^4.7.0",
+    "gh-pages": "^3.2.3",
     "react-popper": "^2.2.5",
     "reactstrap": "^8.10.0"
   }
